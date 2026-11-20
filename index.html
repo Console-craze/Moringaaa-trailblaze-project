@@ -1,11 +1,192 @@
-<!DOCTYPE html><!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Hello, World!</h1>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A simple, clear attendance register for class prefects.">
+    <meta name="theme-color" content="#101d3a">
+    <meta name="color-scheme" content="light">
+    <title>Classmate — Student Attendance</title>
+    <link rel="icon" href="./icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="./apple-icon.png">
+    <link rel="license" href="./icon-license.txt" title="Lucide icon licenses">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true" focusable="false">
+      <defs>
+        <symbol id="shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+        <symbol id="dashboard" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></symbol>
+        <symbol id="clipboard" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></symbol>
+        <symbol id="users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M16 3.128a4 4 0 0 1 0 7.744M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></symbol>
+        <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6h4"/></symbol>
+        <symbol id="checklist" viewBox="0 0 24 24"><path d="M13 5h8M13 12h8M13 19h8m-18-2 2 2 4-4M3 7l2 2 4-4"/></symbol>
+        <symbol id="chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+        <symbol id="bell" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
+        <symbol id="calendar" viewBox="0 0 24 24"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></symbol>
+        <symbol id="asterisk" viewBox="0 0 24 24"><path d="M12 6v12M17.196 9 6.804 15m0-6 10.392 6"/></symbol>
+        <symbol id="check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+        <symbol id="cross" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+        <symbol id="download" viewBox="0 0 24 24"><path d="M12 17V3m-6 8 6 6 6-6M19 21H5"/></symbol>
+        <symbol id="search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></symbol>
+      </defs>
+    </svg>
+
+    <a class="skip-link" href="#attendance">Skip to class attendance</a>
+    <div class="app-shell" id="home">
+      <aside class="sidebar">
+        <a class="brand" href="#home" aria-label="Classmate home">
+          <div class="brand-mark"><svg width="27" height="27" aria-hidden="true"><use href="#shield"/></svg></div>
+          <span class="brand-name">classmate<span>.</span></span>
+          <span class="brand-caption">A better way to show up</span>
+        </a>
+        <div class="nav-label">WORKSPACE</div>
+        <nav class="side-nav" aria-label="Main navigation">
+          <button type="button" class="nav-link" data-view="overview" aria-label="Overview" title="Overview">
+            <svg width="18" height="18" aria-hidden="true"><use href="#dashboard"/></svg><span>Overview</span>
+          </button>
+          <button type="button" class="nav-link active" data-view="attendance" aria-current="page" aria-label="Take attendance" title="Take attendance">
+            <svg width="18" height="18" aria-hidden="true"><use href="#clipboard"/></svg><span>Take attendance</span><span class="nav-dot" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="nav-link" data-view="roster" aria-label="Class roster" title="Class roster">
+            <svg width="18" height="18" aria-hidden="true"><use href="#users"/></svg><span>Class roster</span>
+          </button>
+          <button type="button" class="nav-link" data-view="history" aria-label="Attendance history" title="Attendance history" aria-haspopup="dialog">
+            <svg width="18" height="18" aria-hidden="true"><use href="#clock"/></svg><span>Attendance history</span>
+          </button>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="help-card">
+            <div class="help-icon"><svg width="17" height="17" aria-hidden="true"><use href="#checklist"/></svg></div>
+            <p>Good habits start<br>with showing up.</p><span>Your class, all accounted for.</span>
+          </div>
+          <button type="button" class="profile-mini" data-info="profile" aria-label="Prefect profile" aria-haspopup="dialog">
+            <span class="mini-avatar" aria-hidden="true">TT</span>
+            <span><strong>Trevor the British guy</strong><small>Class prefect</small></span>
+            <svg width="15" height="15" aria-hidden="true"><use href="#chevron"/></svg>
+          </button>
+        </div>
+      </aside>
+
+      <main class="main-area">
+        <header class="topbar">
+          <div class="breadcrumbs"><span>Workspace</span><span class="crumb-slash" aria-hidden="true">/</span><strong id="active-view">Take attendance</strong></div>
+          <div class="top-actions">
+            <span class="school-pill"><span class="online-dot" aria-hidden="true"></span> Riverside Academy</span>
+            <button type="button" class="icon-button" data-info="notifications" aria-label="Notifications" aria-haspopup="dialog">
+              <svg width="18" height="18" aria-hidden="true"><use href="#bell"/></svg><i aria-hidden="true"></i>
+            </button>
+            <div class="top-avatar" aria-label="Trevor the British guy">TT</div>
+          </div>
+        </header>
+
+        <div class="content-wrap">
+          <div class="page-intro" id="overview">
+            <div>
+              <div class="eyebrow"><span class="eyebrow-line"></span><time datetime="2026-11-16">MONDAY, NOVEMBER 16, 2026</time></div>
+              <h1>Good morning, Trevor <svg class="wave" width="19" height="19" aria-hidden="true"><use href="#asterisk"/></svg></h1>
+              <p>Let's get your class checked in and ready to learn.</p>
+            </div>
+            <button type="button" class="date-button" data-info="date" aria-label="Register date: November 16, 2026" aria-haspopup="dialog">
+              <svg width="17" height="17" aria-hidden="true"><use href="#calendar"/></svg><span>Today, Nov 16</span>
+              <svg width="15" height="15" aria-hidden="true"><use href="#chevron"/></svg>
+            </button>
+          </div>
+
+          <section class="class-strip" aria-label="Selected class">
+            <div class="class-avatar" aria-hidden="true"><span>10</span></div>
+            <div class="class-details"><span class="small-label">YOUR CLASS</span><strong>Grade 10 <span class="class-separator">/</span> Room 204</strong></div>
+            <div class="class-divider"></div>
+            <div class="subject-info"><span class="small-label">HOMEROOM</span><strong>Ms. Raychell</strong></div>
+            <div class="class-clock"><svg width="16" height="16" aria-hidden="true"><use href="#clock"/></svg><span>Morning check-in</span></div>
+          </section>
+
+          <section class="stats-grid" aria-label="Attendance totals">
+            <article class="stat-card" data-summary="present">
+              <div class="stat-top"><span>Present</span><span class="stat-icon green"><svg width="17" height="17" aria-hidden="true"><use href="#check"/></svg></span></div>
+              <div class="stat-number"><b data-count></b><span> / <span data-total></span></span></div>
+              <div class="stat-foot"><span class="stat-trend" id="present-percent"></span> of your class is here</div>
+              <div class="stat-progress" aria-hidden="true"><span></span></div>
+            </article>
+            <article class="stat-card" data-summary="absent">
+              <div class="stat-top"><span>Absent</span><span class="stat-icon red"><svg width="17" height="17" aria-hidden="true"><use href="#cross"/></svg></span></div>
+              <div class="stat-number"><b data-count></b><span> / <span data-total></span></span></div>
+              <div class="stat-foot">Students not in class today</div>
+              <div class="stat-progress red-progress" aria-hidden="true"><span></span></div>
+            </article>
+            <article class="stat-card" data-summary="unmarked">
+              <div class="stat-top"><span>Still to mark</span><span class="stat-icon amber"><svg width="17" height="17" aria-hidden="true"><use href="#clock"/></svg></span></div>
+              <div class="stat-number"><b data-count></b><span> / <span data-total></span></span></div>
+              <div class="stat-foot">A quick tap will do it</div>
+              <div class="stat-progress amber-progress" aria-hidden="true"><span></span></div>
+            </article>
+          </section>
+
+          <section class="roster-card" id="attendance" aria-labelledby="roster-title" tabindex="-1">
+            <div class="roster-heading">
+              <div>
+                <div class="roster-title-line"><h2 id="roster-title">Class attendance</h2><span class="live-badge"><span></span> TODAY</span></div>
+                <p>Mark each student as present or absent.</p>
+              </div>
+              <div class="roster-actions">
+                <button type="button" class="outline-button" id="export"><svg width="16" height="16" aria-hidden="true"><use href="#download"/></svg> Export</button>
+                <button type="button" class="save-button" id="save" title="Save a snapshot for this tab; export a CSV to keep it.">
+                  <svg width="16" height="16" aria-hidden="true"><use href="#clipboard"/></svg><span>Save attendance</span>
+                </button>
+              </div>
+            </div>
+            <div class="toolbar">
+              <label class="search-box">
+                <svg width="17" height="17" aria-hidden="true"><use href="#search"/></svg>
+                <input type="search" id="student-search" aria-label="Search students" placeholder="Search by name or student ID..." autocomplete="off" aria-controls="student-rows">
+                <kbd aria-hidden="true">⌘ K</kbd>
+              </label>
+              <div class="roster-count"><span class="count-dot"></span><span><span data-total></span> students</span></div>
+            </div>
+            <noscript><p class="empty-state">Enable JavaScript to load the class roster and mark attendance.</p></noscript>
+            <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable class register">
+              <table aria-labelledby="roster-title">
+                <thead><tr>
+                  <th scope="col" class="number-col">#</th><th scope="col">STUDENT</th><th scope="col">STUDENT ID</th>
+                  <th scope="col">CHECK-IN</th><th scope="col">STATUS</th><th scope="col" class="mark-col">MARK ATTENDANCE</th>
+                </tr></thead>
+                <tbody id="student-rows"></tbody>
+                <tbody id="empty-results" hidden><tr><td colspan="6" class="empty-state"></td></tr></tbody>
+              </table>
+            </div>
+            <div class="table-footer">
+              <span>Showing <strong id="matching-count"></strong> of <strong data-total></strong> students</span>
+              <span class="footer-note"><svg width="14" height="14" aria-hidden="true"><use href="#shield"/></svg> This tab only · Export to keep a copy</span>
+            </div>
+          </section>
+          <footer class="page-footer"><span>© 2026 Classmate</span><span>Making every school day count and be successful.</span></footer>
+        </div>
+      </main>
+    </div>
+
+    <template id="student-row">
+      <tr>
+        <td class="number-col row-number"></td>
+        <td><div class="student-cell"><span class="student-avatar" aria-hidden="true"></span><span class="student-name"></span></div></td>
+        <td><span class="student-id"></span></td>
+        <td class="check-time"><span class="time-dot" aria-hidden="true"></span><span data-time></span></td>
+        <td><span class="status-badge"><svg width="13" height="13" aria-hidden="true"><use></use></svg><span class="status-empty" aria-hidden="true" hidden></span><span data-status-label></span></span></td>
+        <td class="mark-col"><div class="mark-controls">
+          <button type="button" class="mark-choice present-choice" data-mark="present" title="Present" aria-pressed="false"><svg width="14" height="14" aria-hidden="true"><use href="#check"/></svg> Present</button>
+          <button type="button" class="mark-choice absent-choice" data-mark="absent" title="Absent" aria-pressed="false"><svg width="14" height="14" aria-hidden="true"><use href="#cross"/></svg> Absent</button>
+        </div></td>
+      </tr>
+    </template>
+
+    <dialog id="workspace-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
+      <h2 id="dialog-title"></h2>
+      <p id="dialog-description"></p>
+      <div class="table-wrap" id="snapshot-register" hidden>
+        <table aria-label="Saved attendance"><thead><tr><th scope="col">STUDENT</th><th scope="col">STATUS</th><th scope="col">CHECK-IN</th></tr></thead><tbody id="snapshot-rows"></tbody></table>
+      </div>
+      <form method="dialog"><button class="outline-button">Close</button></form>
+    </dialog>
+    <div class="sr-only" id="announcement" role="status" aria-live="polite"></div>
+  </body>
 </html>
